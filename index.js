@@ -1,6 +1,9 @@
 const express = require('express')
 const pg = require('pg')
 
+// Get env vars from .env file
+require('dotenv').config({path:"./.env"})
+
 const app = express()
 // configs come from standard PostgreSQL env vars
 // https://www.postgresql.org/docs/9.6/static/libpq-envars.html
