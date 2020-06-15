@@ -52,7 +52,7 @@ const requestRateLimiter = (req, res, next) => {
             if(err) throw err;
             
             userRecord = JSON.parse(userRecord);
-            console.log(userRecord);
+            
             // get current time from Moment
             const currentRequestTime = moment();
 
@@ -125,9 +125,7 @@ const requestRateLimiter = (req, res, next) => {
         next(err);
     };
 
-    // console.log(`Endpoint: ${endPoint}, Tokens left: ${memory.get(userID)[endPoint].availableTokens}`);
-    // console.log(memory.get(userID));
-   
+    // console.log(`Endpoint: ${endPoint}, Tokens left: ${memory.get(userID)[endPoint].availableTokens}`);   
 }
 
 module.exports = requestRateLimiter;
