@@ -2,16 +2,22 @@ const moment = require('moment');
 
 const redis = require('redis');
 
-// create and connect redis client to local instance.
-let redisClient = redis.createClient();
+// Get env vars from .env file
+require('dotenv').config({path:"./.env"})
 
-// Hanlde redis client for prod
+// create redist Client
+let redisClient;
+
+// Handle redis client for prod
 if (process.env.REDISTOGO_URL) {
     // redistogo connection
     const rtg   = require("url").parse(process.env.REDISTOGO_URL);
     redisClient = redis.createClient(rtg.port, rtg.hostname);
 
     redisClient.auth(rtg.auth.split(":")[1]);
+}
+else{
+    redisClient = redis.createClient();
 }
 
 redisClient.on('connect', function() {
