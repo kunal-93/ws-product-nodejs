@@ -3,7 +3,16 @@ const moment = require('moment');
 const redis = require('redis');
 
 // create and connect redis client to local instance.
-let redisClient = redis.createClient(process.env.REDIS_URL);
+let redisClient = redis.createClient();
+
+// Hanlde redis client for prod
+if (process.env.REDISTOGO_URL) {
+    // redistogo connection
+    const rtg   = require("url").parse(process.env.REDISTOGO_URL);
+    redisClient = redis.createClient(rtg.port, rtg.hostname);
+
+    redisClient.auth(rtg.auth.split(":")[1]);
+}
 
 redisClient.on('connect', function() {
     console.log('Redis client connected');
