@@ -1,4 +1,3 @@
-const {searchRooms, registerUser} = require("../../models/swagger");
 
 const swaggerDefinition = {
     info: {
@@ -10,11 +9,7 @@ const swaggerDefinition = {
             name: "Kunal Dhawan",
             email: "kunaldhawan0212@gmail.com"
         },
-        servers: ["http://localhost:3000"]
-    },
-    definitions:{
-        ...searchRooms,
-        ...registerUser
+        servers: ["http://localhost:3000", "https://eq-works-sample.herokuapp.com"]
     }
 };
 
