@@ -1,7 +1,11 @@
-const express = require('express')
+const express = require('express');
+const cors = require('cors');
+
+// Swagger imports
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 const {swaggerOptions} = require('./controller/helpers/swagger');
+
 //Import Rate limiter
 const requestRateLimiter  = require( "./controller/middlewares/requestRateLimiter");
 
@@ -9,6 +13,9 @@ const requestRateLimiter  = require( "./controller/middlewares/requestRateLimite
 require('dotenv').config({path:"./.env"})
 
 const app = express()
+
+// use cors
+app.use(cors())
 
 // use middleware requestRateLimiter for each request
 app.use(requestRateLimiter);
