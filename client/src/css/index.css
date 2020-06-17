@@ -1,0 +1,13 @@
+.options{
+    display: flex;
+    justify-content: flex-start;
+}
+
+.options > button, span{
+    margin: .2em;
+    vertical-align: middle;
+}
+
+.date-dropdown{
+    max-width: 20%;
+}

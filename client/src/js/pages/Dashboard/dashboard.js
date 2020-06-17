@@ -1,10 +1,11 @@
 import React from "react";
-import ChartContainer from "../../components/chartContainer";
+import ChartContainer from "components/ChartContainer";
 
 const Dashboard = () => {
     return (
         <>
-            <ChartContainer />
+            <ChartContainer endPoint="events" />
+            <ChartContainer endPoint="stats" />
         </>
     )
 }

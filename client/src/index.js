@@ -8,6 +8,7 @@ import Dashboard from './js/pages/Dashboard/dashboard';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 
 import 'css/index.css';
+import 'css/normalize.css';
 
 const App = () => {
 	return (

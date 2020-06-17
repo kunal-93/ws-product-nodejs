@@ -25,10 +25,13 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "highcharts": "^8.1.1",
     "highcharts-react-official": "^3.0.0",
+    "moment": "^2.26.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-dropdown": "^1.7.0",
     "react-router-dom": "^5.2.0"
   }
 }
