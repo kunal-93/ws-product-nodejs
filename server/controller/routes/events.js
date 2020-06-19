@@ -27,9 +27,9 @@ router.get('/hourly', (req, res, next) => {
   
 /**
  * @swagger
- * /stats/daily:
+ * /events/daily:
  *  get:
- *      description: fetches daily stats
+ *      description: fetches daily events
  *      responses:
  *          200:
  *              description: OK
