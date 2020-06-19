@@ -18,7 +18,6 @@ const HourlyChartContainer = ({url, setFrequency, setType, selectDate, selectedD
     }
 
     useEffect(()=>{
-        console.log(url);
         getData(url, datesFiller);
     }, [url])
     

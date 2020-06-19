@@ -5,6 +5,7 @@ import ReactDOM from "react-dom";
 import Dashboard from './js/pages/dashboard/dashboard';
 import GraphView from './js/pages/graphView';
 import tableView from './js/pages/tableView';
+import mapView from './js/pages/mapView';
 
 // Router Imports
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
@@ -19,6 +20,7 @@ const App = () => {
                 <Route exact path="/" component={Dashboard} />
                 <Route path="/graphView" component={GraphView} />
                 <Route path="/tableView" component={tableView} />
+                <Route path="/mapView" component={mapView} />
             </Switch>  
         </Router>
     )
