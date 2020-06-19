@@ -1,12 +1,9 @@
 import React from "react";
-import ChartContainer from "components/ChartContainer";
+import  {Header} from "../page";
 
 const Dashboard = () => {
     return (
-        <>
-            <ChartContainer endPoint="events" />
-            <ChartContainer endPoint="stats" />
-        </>
+        <Header />
     )
 }
 

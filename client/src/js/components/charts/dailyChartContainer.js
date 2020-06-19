@@ -1,14 +1,14 @@
 import React from "react";
 
-import FrequencySelector from "./frequencySelector";
-import GraphTypeSelector from "./graphTypeSelector";
+import FrequencySelector from "../frequencySelector";
+import GraphTypeSelector from "../graphTypeSelector";
 
 const DailyChartContainer = ({setFrequency, setType}) =>{
     
     return (
         <section>
             <div>
-                <FrequencySelector setFrequency={setFrequency} />
+                <FrequencySelector className="options" setFrequency={setFrequency} />
             </div>
             <div>
                 <GraphTypeSelector setType={setType} />

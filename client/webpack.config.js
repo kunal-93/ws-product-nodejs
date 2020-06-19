@@ -34,4 +34,11 @@ module.exports = {
 			img: path.resolve(__dirname, 'src/img/'),
 		}
 	},
+	externals: {
+		'Config': JSON.stringify(process.env.NODE_ENV === 'production' ? {
+			serverUrl: "https://eq-works-sample.herokuapp.com"
+		} : {
+			serverUrl: "http://localhost:5555"
+		})
+	}
 };

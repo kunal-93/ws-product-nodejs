@@ -1,3 +1,20 @@
+table{
+    margin: 0 auto;
+    border-collapse: collapse;
+    border-style: hidden;
+}
+
+.nav-bar{
+    display: flex;
+    justify-content: space-around;
+}
+
+.section{
+    margin: 1em;
+    box-shadow: .05em .02em grey;
+    padding: 1em;
+
+}
 .options{
     display: flex;
     justify-content: flex-start;
@@ -10,4 +27,34 @@
 
 .date-dropdown{
     max-width: 20%;
+}
+
+.table-body{
+    display: grid;
+    gap: .5em;
+}
+
+.normal-row{
+    box-shadow: 0 .05em gray;
+}
+
+.highlighted-row{
+    box-shadow: .5em .1em greenyellow;
+}
+
+.table-data, th{
+    border: .01em solid black;
+    padding: .2em;
+    width: 10em;
+} 
+
+.center-align{
+    text-align: center;
+    margin:.5em;
+}
+
+.centered-flex{
+    display: flex;
+    justify-content: center;
+    margin:.5em;
 }

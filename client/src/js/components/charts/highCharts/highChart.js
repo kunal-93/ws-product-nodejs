@@ -3,14 +3,11 @@ import Highcharts, { objectEach } from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 
 // Helper imports
-import getData from "../../helpers/getData";
-import reducer from "../../helpers/graphOptionsReducer";
+import getData from "components/../helpers/getData";
+import reducer from "components/../helpers/graphOptionsReducer";
 
 // import chart options
 import defaultOptions from "./models/chartOptions";
-
-// const baseUrl = "https://eq-works-sample.herokuapp.com";
-const baseUrl = "http://localhost:5555";
 
 const HighChart = ({url,endPoint, type, xLabel, selectedDate}) => {
 

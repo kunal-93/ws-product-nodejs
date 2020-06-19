@@ -1,9 +1,9 @@
 import React from "react";
 
-const FrequencyChooser = ({setFrequency}) => {
+const FrequencySelector = ({setFrequency, className=""}) => {
 
     return(
-        <div className="options">
+        <div className={className}>
             <span>Frequency</span>
             <button onClick={()=>setFrequency("daily")}>Daily</button>
             <button onClick={()=>setFrequency("hourly")}>Hourly</button>
@@ -11,4 +11,4 @@ const FrequencyChooser = ({setFrequency}) => {
     )
 }
 
-export default FrequencyChooser;
+export default FrequencySelector;

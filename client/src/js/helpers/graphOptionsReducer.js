@@ -1,8 +1,9 @@
 const reducer = (options, {endPoint, response, graphType, xLabel, selectedDate}) => {
     
     let records = response.data;
+
     // if no records are found
-    if(records.length <=0)
+    if(records.length <=0 || xLabel == NaN)
         return options;
 
     const newOptions = {...options};
@@ -37,7 +38,7 @@ const reducer = (options, {endPoint, response, graphType, xLabel, selectedDate})
         return {
             name: column,
             data: records.map(record=>{
-                console.log(record);
+        
                 let xVal;
                 // Process dates if they are to be shown on Xlabel
                 const date = new Date(record.date);
@@ -50,13 +51,13 @@ const reducer = (options, {endPoint, response, graphType, xLabel, selectedDate})
                     xVal =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
                         parseInt(record[xLabel]), date.getUTCMinutes(), date.getUTCSeconds());
                 }
-            
+               
                 return [xVal , parseInt(record[column])]
             })
         }
     })
 
-    console.log(newOptions);
+    // console.log(newOptions);
     return newOptions;
 }
 

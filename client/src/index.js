@@ -2,10 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 /* Page Imports */
-import Dashboard from './js/pages/Dashboard/dashboard';
+import Dashboard from './js/pages/dashboard/dashboard';
+import GraphView from './js/pages/graphView';
+import tableView from './js/pages/tableView';
 
 // Router Imports
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import 'css/index.css';
 import 'css/normalize.css';
@@ -13,7 +15,11 @@ import 'css/normalize.css';
 const App = () => {
 	return (
         <Router>
-            <Route exact path="/" component={Dashboard} />
+            <Switch>
+                <Route exact path="/" component={Dashboard} />
+                <Route path="/graphView" component={GraphView} />
+                <Route path="/tableView" component={tableView} />
+            </Switch>  
         </Router>
     )
 }

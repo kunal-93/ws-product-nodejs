@@ -11,7 +11,7 @@ const getData = (url, cb=false, options) => {
 
     axios.get(url)
     .then(response => {
-        console.log("got Data");
+        // console.log("got Data");
         if(response.status == 200 && cb){
             cb({...options, response: response})
         }
