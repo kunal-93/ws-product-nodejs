@@ -1,6 +1,23 @@
 import axios from "axios";
 
 /**
+ * Checks if error is returned by GetData Method or not
+ * @param {*} history 
+ * @param {*} error 
+ */
+export const isValidError = (history, error) => {
+    if(error){
+        history.push({
+            pathname: '/error',
+            error: [error.response.status, error.response.statusText].join(": ")
+          });
+        
+        return true;
+    }
+
+    return false;
+}
+/**
  * Gets the data from server
  * @param {*} url 
  * @param {*} endPoint 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import fuzzy from "fuzzy";
 import { v4 as uuidv4 } from 'uuid';
-import {Redirect} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 // Custom Components import
 import Table from "./table";
@@ -11,7 +11,7 @@ import Config from 'Config';
 const baseUrl = Config.serverUrl;
 
 // Helpers import
-import getData from "../../helpers/getData";
+import getData, {isValidError} from "../../helpers/getData";
 
 const options = {
     pre: "<b>",
@@ -19,28 +19,31 @@ const options = {
 };
 
 const TableContainer = ({endPoint, defaultFrequency="", searchableColumns=[]}) => {
-    
+
+    // update the searchable columns based on the searchableColumns property passed
     options.extract = el => searchableColumns.map(col=>el[col]).join("")
 
     const makeUrl = (frequency) => {
         return [baseUrl, endPoint, frequency].join("/")
     }
 
+    const history = useHistory();
     const [frequency, setFrequency] =  useState(defaultFrequency);
     const [url, setUrl] = useState(makeUrl(frequency));
     const [data, setData] = useState([]);
     const [searchWord, setSearchWord] = useState("");
     const [searchMatches, setSearchMatches] = useState([]);
-    const [redirectMessage, setRedirect] = useState("");
 
+    /**
+     * Fills the Data in the table
+     * @param {*} param0 props
+     */
     const dataFiller = ({response, error}) => {
     
-        if(error){
-            setRedirect([error.response.status, error.response.statusText].join(": "));
-        }
-        else{
+        if(!isValidError(history, error)){
+            console.log("inside");
             const cleanData = response.data.map(record=>{
-                // Format Date is present
+                // Format Date if present
                 if(record.date){
                     return {...record,
                             date: (new Date(record.date)).toDateString()
@@ -62,13 +65,12 @@ const TableContainer = ({endPoint, defaultFrequency="", searchableColumns=[]}) =
     }
 
     useEffect(()=>{
-        const isMounted = true;
-
         setUrl(makeUrl(frequency));
         getData(url, dataFiller);
           
     }, [frequency, url])
 
+    // update matches based on the entered search keyword
     useEffect(()=>{
         const results = fuzzy.filter(searchWord, data, options);
         setSearchMatches(results.map(e => {
@@ -78,17 +80,6 @@ const TableContainer = ({endPoint, defaultFrequency="", searchableColumns=[]}) =
                 }
             ));
     }, [searchWord])
-
-      
-    if(redirectMessage && redirectMessage.length > 0){
-        return(
-            <Redirect to={{
-                pathname: '/error',
-                error: redirectMessage 
-              }}
-            />
-        )
-    }
 
     return (
         <section className="section">

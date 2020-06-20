@@ -5,8 +5,10 @@ import Row from "./row";
 
 const Table = ({searchMatches, searchWord}) => {
 
+    // get the columns without key attribute
     const columns = searchMatches.length > 0 ? Object.keys(searchMatches[0]).filter(column=>column!="key") : [];
 
+    // highlight the rows for matched records
     const className = searchWord.length <= 0 ? "normal-row" : "highlighted-row";
 
     return (

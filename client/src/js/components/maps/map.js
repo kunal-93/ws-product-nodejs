@@ -119,8 +119,8 @@ const MapElement = ({data, selectedMetric, setTooltipContent}) => {
         </ComposableMap>
         <div className="controls">
             <span>Zoom Options</span>
-            <button onClick={zoomInHandler}>+</button>
-            <button onClick={zoomOutHandler}>-</button>
+            <button className="button" onClick={zoomInHandler}>+</button>
+            <button className="button" onClick={zoomOutHandler}>-</button>
         </div>
     </div>
     );

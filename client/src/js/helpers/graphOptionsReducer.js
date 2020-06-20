@@ -1,3 +1,8 @@
+/**
+ * Reducer function to update the options of the graph based on the fetched data
+ * @param {*} options Previous options received by the reduced
+ * @param {*} param1 Action object to handle the appropriate action
+ */
 const reducer = (options, {endPoint, response, graphType, xLabel, selectedDate}) => {
     
     if(!response)
@@ -36,6 +41,7 @@ const reducer = (options, {endPoint, response, graphType, xLabel, selectedDate})
     // Remove date columns and/or xlabel column 
     columns = columns.filter(column => column!== "date" && column!== xLabel);
 
+    // Update the Data
     newOptions.series = columns.map(column => 
     {
         return {

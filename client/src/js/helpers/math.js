@@ -1,5 +1,11 @@
 import { scaleQuantize } from "d3-scale";
 
+/**
+ * Calculates the min and max value from an object column/Key
+ * and returns as array [min, max]
+ * @param {*} arr 
+ * @param {*} key 
+ */
 export const getMinMax = (arr, key) => {
     if(arr.length<=0)
         return;
@@ -17,6 +23,10 @@ export const getMinMax = (arr, key) => {
     return [min, max];
 }
 
+/**
+ * Used to map a value to the approriate color based on the intensity
+ * @param {*} minMax array of min and max value [min, max]
+ */
 export const colorScale = (minMax) =>
     scaleQuantize()
         .domain(minMax)

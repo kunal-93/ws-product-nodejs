@@ -5,8 +5,8 @@ const FrequencySelector = ({setFrequency, className=""}) => {
     return(
         <div className={className}>
             <span>Frequency</span>
-            <button onClick={()=>setFrequency("daily")}>Daily</button>
-            <button onClick={()=>setFrequency("hourly")}>Hourly</button>
+            <button className="button" onClick={()=>setFrequency("daily")}>Daily</button>
+            <button className="button" onClick={()=>setFrequency("hourly")}>Hourly</button>
         </div>
     )
 }

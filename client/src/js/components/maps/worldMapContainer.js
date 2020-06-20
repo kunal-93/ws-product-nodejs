@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import Dropdown from 'react-dropdown';
 import ReactTooltip from "react-tooltip";
 
@@ -9,20 +10,25 @@ import Config from 'Config';
 const baseUrl = Config.serverUrl;
 
 // Helpers import
-import getData from "../../helpers/getData";
+import getData, {isValidError} from "../../helpers/getData";
+
 
 const MapContainer = ({endPoint, metrics}) => {
 
     const url = [baseUrl, endPoint].join("/");
 
+    const history = useHistory();
     const [data, setData] = useState([]);
     const [availableDates, setAvailableDates] = useState([]);
     const [selectedDate, selectDate] = useState("");
     const [filteredData, setFilteredData] = useState([]);
     const [selectedMetric, selectMetric] = useState("");
     const [tooltipContent, setTooltipContent] = useState("");
-    const [redirectMessage, setRedirect] = useState("");
 
+    /**
+     * Fill the metrics dates in drop down
+     * @param {*} data 
+     */
     const datesFiller = data => {
         const dates = [...new Set(data.map(record=>record.date))];
         setAvailableDates(dates);
@@ -30,12 +36,14 @@ const MapContainer = ({endPoint, metrics}) => {
         selectDate(dates[0]);
     }
 
+    /**
+     * Fills the Data for maps
+     * @param {*} param0 
+     */
     const dataFiller = ({response, error}) => {
 
-        if(error){
-            setRedirect([error.response.status, error.response.statusText].join(": "));
-        }
-        else{
+        if(!isValidError(history, error)){
+            // convert the data in string format
             const cleanData = response.data.map(record=>{
                 return {...record,
                         date: (new Date(record.date)).toDateString()
@@ -47,23 +55,14 @@ const MapContainer = ({endPoint, metrics}) => {
         }
     }
 
+    // Filter the data based on new date selection
     useEffect(()=>{
         setFilteredData(data.filter(record=>record.date === selectedDate))
     },[selectedDate])
 
     useEffect(()=>{
         getData(url, dataFiller);
-    }, [])
-
-    if(redirectMessage && redirectMessage.length > 0){
-        return(
-            <Redirect to={{
-                pathname: '/error',
-                error: redirectMessage 
-              }}
-            />
-        )
-    }
+    }, [endPoint])
     
     return (
         <section className="section">

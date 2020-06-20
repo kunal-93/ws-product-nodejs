@@ -3,6 +3,7 @@ import MapContainer from "components/maps/worldMapContainer";
 import {Header} from "./page";
 
 const MapView = () => {
+    
     return (
         <>
             <Header />

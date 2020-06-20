@@ -1,42 +1,37 @@
 import React, {useState, useEffect} from "react";
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-import {Redirect} from "react-router-dom";
+import {useHistory } from "react-router-dom";
  
-import getData from "../../helpers/getData";
+import getData, {isValidError} from "../../helpers/getData";
 
 import FrequencySelector from "../frequencySelector";
 import GraphTypeSelector from "../graphTypeSelector";
 
 const HourlyChartContainer = ({url, setFrequency, setType, selectDate, selectedDate}) =>{
     
+    const history = useHistory();
     const [availableDates, setAvailableDates] = useState([]);
-    const [redirectMessage, setRedirect] = useState("");
     
+    /**
+     * Fills the dates in the dropdown
+     * @param {*} param0 
+     */
     const datesFiller = ({response, error}) => {
-        if(error){
-            setRedirect([error.response.status, error.response.statusText].join(": "));
-        }
-        else{
+        // if server did not give error, fill the data
+        if(!isValidError(history, error)){
+    
+            // Get unique dates and store them as Strings for Date chooser
             const dates = [...new Set(response.data.map(record=>(new Date(record.date)).toDateString()))];
             setAvailableDates(dates);
             selectDate(dates[0]);
         }
     }
 
+    // update the data if url changes
     useEffect(()=>{
         getData(url, datesFiller);
     }, [url])
-    
-    if(redirectMessage && redirectMessage.length > 0){
-        return(
-            <Redirect to={{
-                pathname: '/error',
-                error: redirectMessage 
-              }}
-            />
-        )
-    }
 
     return (
         <section >

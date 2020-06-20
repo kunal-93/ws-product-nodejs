@@ -20,9 +20,20 @@ table{
     justify-content: flex-start;
 }
 
-.options > button, span{
+.options > span{
     margin: .2em;
     vertical-align: middle;
+}
+
+.button{
+    background-image: linear-gradient(to top, rgb(83, 137, 168), rgb(18, 166, 235));
+    color: white;
+    border-width: 0;
+    border-radius: .2em;
+    padding: .2em 0.5em;
+    margin: .2em;
+    text-decoration: none;
+    text-align: center;
 }
 
 .date-dropdown{

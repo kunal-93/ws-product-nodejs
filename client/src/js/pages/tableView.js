@@ -4,6 +4,7 @@ import POITableContainer from "components/tables/poiTableContainer"
 import {Header} from "./page";
 
 const TableView = () => {
+
     return (
         <>
             <Header />

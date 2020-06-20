@@ -5,8 +5,8 @@ const GraphTypeSelector = ({setType}) => {
     return(
         <div className="options">
             <span>Graph  Type</span>
-            <button onClick={()=>setType("column")}>Bar</button>
-            <button onClick={()=>setType("line")}>Line</button>
+            <button className="button" onClick={()=>setType("column")}>Bar</button>
+            <button className="button" onClick={()=>setType("line")}>Line</button>
         </div>
     )
 }

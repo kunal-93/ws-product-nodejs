@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import fuzzy from "fuzzy";
 import { v4 as uuidv4 } from 'uuid';
-import {Redirect} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 // Custom Components import
 import Table from "./table";
@@ -10,7 +10,7 @@ import Config from 'Config';
 const baseUrl = Config.serverUrl;
 
 // Helpers import
-import getData from "../../helpers/getData";
+import getData,{isValidError} from "../../helpers/getData";
 
 const options = {
     pre: "<b>",
@@ -21,18 +21,19 @@ const TableContainer = ({endPoint, searchableColumns=[]}) => {
     
     options.extract = el => searchableColumns.map(col=>el[col]).join("")
 
+    const history = useHistory();
     const [data, setData] = useState([]);
     const [searchWord, setSearchWord] = useState("");
     const [searchMatches, setSearchMatches] = useState([]);
-    const [redirectMessage, setRedirect] = useState("");
 
+    /**
+     * Fill Data in appropriate components from server
+     * @param {*} param0 
+     */
     const dataFiller = ({response, error}) => {
-        if(error){
-            setRedirect([error.response.status, error.response.statusText].join(": "));
-        }
-        else{
+        if(!isValidError(history, error)){
             const cleanData = response.data.map(record=>{
-                // Format Date is present
+                // Format Date if present
                 if(record.date){
                     return {...record,
                             date: (new Date(record.date)).toDateString()
@@ -53,11 +54,13 @@ const TableContainer = ({endPoint, searchableColumns=[]}) => {
         }
     }
 
+    // on first mount
     useEffect(()=>{
         const url = [baseUrl, endPoint].join("/");
         getData(url, dataFiller);
     }, [])
 
+    // update matches based on the keywords entered
     useEffect(()=>{
         const results = fuzzy.filter(searchWord, data, options);
         setSearchMatches(results.map(e => {
@@ -67,16 +70,6 @@ const TableContainer = ({endPoint, searchableColumns=[]}) => {
                 }
             ));
     }, [searchWord])
-
-    if(redirectMessage && redirectMessage.length > 0){
-        return(
-            <Redirect to={{
-                pathname: '/error',
-                error: redirectMessage 
-              }}
-            />
-        )
-    }
 
     return (
         <section className="section">
