@@ -6,8 +6,7 @@ import {useHistory} from "react-router-dom";
 // Custom Components import
 import Table from "./table";
 
-import Config from 'Config';
-const baseUrl = Config.serverUrl;
+const baseUrl = SERVER_URL;
 
 // Helpers import
 import getData,{isValidError} from "../../helpers/getData";

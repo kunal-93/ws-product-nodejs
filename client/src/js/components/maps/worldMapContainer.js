@@ -6,8 +6,7 @@ import ReactTooltip from "react-tooltip";
 // Custom Components import
 import Map from "./map";
 
-import Config from 'Config';
-const baseUrl = Config.serverUrl;
+const baseUrl = SERVER_URL;
 
 // Helpers import
 import getData, {isValidError} from "../../helpers/getData";

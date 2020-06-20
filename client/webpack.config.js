@@ -1,5 +1,14 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 const path = require('path');
+
+const SERVER_URL = {
+    production: JSON.stringify('https://eq-works-sample.herokuapp.com'),
+    development: JSON.stringify('http://localhost:5555')
+}
+
+// check environment mode
+var environment = process.env.NODE_ENV === 'production' ? 'production' : 'development';
 
 module.exports = {
 	module: {
@@ -28,7 +37,11 @@ module.exports = {
 		new HtmlWebPackPlugin({
 			template: './src/index.html',
 			filename: './index.html'
-		})
+		}),
+
+		new webpack.DefinePlugin({
+            'SERVER_URL': SERVER_URL[environment]
+        })
     ],
     resolve: {
 		alias: {

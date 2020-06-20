@@ -5,9 +5,7 @@ import HighChart from "./highCharts/highChart";
 import HourlyChartContainer from "./hourlyChartContainer";
 import DailyChartContainer from "./dailyChartContainer";
 
-import Config from "Config";
-
-const baseUrl = Config.serverUrl;
+const baseUrl = SERVER_URL;
 
 const ChartContainer = ({endPoint}) => {
     
