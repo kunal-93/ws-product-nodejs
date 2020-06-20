@@ -29,13 +29,13 @@ redisClient.on('error', (err) => {
     console.log("Error " + err);
   });
 
-// Hashtable representing the memory of the server to store request logs
-// const memory = new Map();
-const MAX_REQUESTS = 10;
+const MAX_REQUESTS = 25;
 const WINDOW_SIZE_IN_HOURS = 1;
 
 /**
  * Description: Request rate limiter limits the number of request per end point within a given time window
+ * In this demo scenario, MAX Requests is kept in the server and is set in the server
+ * In production, Every user's Request limit should be kept in the DB and be different of each user.
  * @param {*} req 
  * @param {*} res 
  * @param {*} next 
@@ -66,14 +66,16 @@ const requestRateLimiter = (req, res, next) => {
             if(userRecord){
                 // if user record exists for current end point
                 if(endPoint in userRecord){
+            
                     const endPointRecord = userRecord[endPoint];
-
+            
                     // Calculate window's end time
                     const windowEndTime = moment.unix(endPointRecord.firstRequestTimeStamp)
                         .add(WINDOW_SIZE_IN_HOURS, 'hours');
                     
                     // Window has elapsed if current time is greater than window end time, reset the window
                     if(moment() > windowEndTime){
+                        
                         // Mark this as the first request and save its timestamp
                         endPointRecord.firstRequestTimeStamp = currentRequestTime.unix();
                         // reset the available tokens
@@ -122,7 +124,7 @@ const requestRateLimiter = (req, res, next) => {
                 requestLog[endPoint] = requestEndpointLog;
 
                 redisClient.set(userID, JSON.stringify(requestLog));
-                // memory.set(userID, requestLog);
+                
                 next();
             }
         })
@@ -130,8 +132,6 @@ const requestRateLimiter = (req, res, next) => {
     catch(err){
         next(err);
     };
-
-    // console.log(`Endpoint: ${endPoint}, Tokens left: ${memory.get(userID)[endPoint].availableTokens}`);   
 }
 
 module.exports = requestRateLimiter;
