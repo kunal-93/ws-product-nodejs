@@ -2,6 +2,35 @@ const express = require('express')
 const router = express.Router();
 const {queryHandler} = require("../helpers/query");
 
+
+/**
+ * @swagger
+ * /stats/locations:
+ *  get:
+ *      description: fetches daily stats and their locations
+ *      responses:
+ *          200:
+ *              description: OK
+ *          429: 
+ *              description: Too many requests
+ *          500:
+ *              description: Internal server error
+ */
+router.get('/locations', (req, res, next) => {
+  req.sqlQuery = `
+    SELECT H.date, P.name, P.lat, P.lon,
+      SUM(impressions) AS impressions,
+      SUM(clicks) AS clicks,
+      SUM(revenue) AS revenue
+    FROM public.hourly_stats AS H
+    INNER JOIN public.poi AS P
+    ON H.poi_id = P.poi_id
+    GROUP BY H.date, P.name, P.lat, P.lon
+    ORDER BY H.date
+  `
+  return next();
+}, queryHandler)
+
 /**
  * @swagger
  * /stats/hourly:
