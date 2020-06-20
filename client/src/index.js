@@ -4,8 +4,9 @@ import ReactDOM from "react-dom";
 /* Page Imports */
 import Dashboard from './js/pages/dashboard/dashboard';
 import GraphView from './js/pages/graphView';
-import tableView from './js/pages/tableView';
-import mapView from './js/pages/mapView';
+import TableView from './js/pages/tableView';
+import MapView from './js/pages/mapView';
+import ErrorPage from './js/pages/errorView';
 
 // Router Imports
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
@@ -19,8 +20,9 @@ const App = () => {
             <Switch>
                 <Route exact path="/" component={Dashboard} />
                 <Route path="/graphView" component={GraphView} />
-                <Route path="/tableView" component={tableView} />
-                <Route path="/mapView" component={mapView} />
+                <Route path="/tableView" component={TableView} />
+                <Route path="/mapView" component={MapView} />
+                <Route path="/error" component={ErrorPage} />
             </Switch>  
         </Router>
     )

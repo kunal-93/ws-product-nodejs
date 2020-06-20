@@ -1,9 +1,12 @@
 const reducer = (options, {endPoint, response, graphType, xLabel, selectedDate}) => {
     
+    if(!response)
+        return options
+
     let records = response.data;
 
     // if no records are found
-    if(records.length <=0 || xLabel == NaN)
+    if(!response || records.length <=0 || xLabel == NaN)
         return options;
 
     const newOptions = {...options};
@@ -57,7 +60,6 @@ const reducer = (options, {endPoint, response, graphType, xLabel, selectedDate})
         }
     })
 
-    // console.log(newOptions);
     return newOptions;
 }
 

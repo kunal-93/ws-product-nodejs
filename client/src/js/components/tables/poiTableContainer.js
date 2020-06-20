@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import fuzzy from "fuzzy";
 import { v4 as uuidv4 } from 'uuid';
+import {Redirect} from "react-router-dom";
 
 // Custom Components import
 import Table from "./table";
@@ -23,27 +24,33 @@ const TableContainer = ({endPoint, searchableColumns=[]}) => {
     const [data, setData] = useState([]);
     const [searchWord, setSearchWord] = useState("");
     const [searchMatches, setSearchMatches] = useState([]);
+    const [redirectMessage, setRedirect] = useState("");
 
-    const dataFiller = ({response}) => {
-        const cleanData = response.data.map(record=>{
-            // Format Date is present
-            if(record.date){
+    const dataFiller = ({response, error}) => {
+        if(error){
+            setRedirect([error.response.status, error.response.statusText].join(": "));
+        }
+        else{
+            const cleanData = response.data.map(record=>{
+                // Format Date is present
+                if(record.date){
+                    return {...record,
+                            date: (new Date(record.date)).toDateString()
+                        }
+                    }
+                else{
+                    return record;
+                }
+            });
+
+            setData(cleanData);
+            setSearchMatches(cleanData.map(record => {
                 return {...record,
-                        date: (new Date(record.date)).toDateString()
+                    key: uuidv4()
                     }
                 }
-            else{
-                return record;
-            }
-        });
-
-        setData(cleanData);
-        setSearchMatches(cleanData.map(record => {
-            return {...record,
-                key: uuidv4()
-                }
-            }
-        ));
+            ));
+        }
     }
 
     useEffect(()=>{
@@ -60,6 +67,16 @@ const TableContainer = ({endPoint, searchableColumns=[]}) => {
                 }
             ));
     }, [searchWord])
+
+    if(redirectMessage && redirectMessage.length > 0){
+        return(
+            <Redirect to={{
+                pathname: '/error',
+                error: redirectMessage 
+              }}
+            />
+        )
+    }
 
     return (
         <section className="section">

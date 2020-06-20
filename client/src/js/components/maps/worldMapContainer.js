@@ -21,6 +21,7 @@ const MapContainer = ({endPoint, metrics}) => {
     const [filteredData, setFilteredData] = useState([]);
     const [selectedMetric, selectMetric] = useState("");
     const [tooltipContent, setTooltipContent] = useState("");
+    const [redirectMessage, setRedirect] = useState("");
 
     const datesFiller = data => {
         const dates = [...new Set(data.map(record=>record.date))];
@@ -29,15 +30,21 @@ const MapContainer = ({endPoint, metrics}) => {
         selectDate(dates[0]);
     }
 
-    const dataFiller = ({response}) => {
-        const cleanData = response.data.map(record=>{
-            return {...record,
-                    date: (new Date(record.date)).toDateString()
-                }
-            });
+    const dataFiller = ({response, error}) => {
 
-        setData(cleanData);
-        datesFiller(cleanData);
+        if(error){
+            setRedirect([error.response.status, error.response.statusText].join(": "));
+        }
+        else{
+            const cleanData = response.data.map(record=>{
+                return {...record,
+                        date: (new Date(record.date)).toDateString()
+                    }
+                });
+
+            setData(cleanData);
+            datesFiller(cleanData);
+        }
     }
 
     useEffect(()=>{
@@ -48,7 +55,16 @@ const MapContainer = ({endPoint, metrics}) => {
         getData(url, dataFiller);
     }, [])
 
-    console.log("Main ", tooltipContent)
+    if(redirectMessage && redirectMessage.length > 0){
+        return(
+            <Redirect to={{
+                pathname: '/error',
+                error: redirectMessage 
+              }}
+            />
+        )
+    }
+    
     return (
         <section className="section">
             <h3 className="center-align">{`${endPoint.split("/").join("-")} Data Map`}</h3>

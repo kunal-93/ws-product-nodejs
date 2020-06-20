@@ -86,7 +86,7 @@ const MapElement = ({data, selectedMetric, setTooltipContent}) => {
             </Geographies>
 
             {markers.map(({ name, color, coordinates, markerOffsetX, markerOffsetY, toolTipText}) => {
-                console.log(name, color);
+                // console.log(name, color);
                 return (
                     <Marker key={name} coordinates={coordinates}
                         onMouseEnter={() => setTooltipContent(toolTipText)}

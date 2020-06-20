@@ -7,11 +7,11 @@ import axios from "axios";
  * @param {*} type 
  * @param {*} cb 
  */
-const getData = (url, cb=false, options) => {
+const getData = (url, cb=false, options, source=false) => {
 
-    axios.get(url)
+    axios.get(url, {cancelToken : source.token})
     .then(response => {
-        // console.log("got Data");
+        
         if(response.status == 200 && cb){
             cb({...options, response: response})
         }
@@ -20,7 +20,11 @@ const getData = (url, cb=false, options) => {
             console.log(response.statusText);
         }
     })
-    .catch(err=>console.log(err));
+    .catch(err=>{
+        console.error("Error Caught:", err)
+        if(cb)
+            cb({...options, error: err})   
+    });
 }
 
 export default getData;

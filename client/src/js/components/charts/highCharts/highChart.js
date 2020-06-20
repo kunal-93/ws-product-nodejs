@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useReducer } from 'react'
-import Highcharts, { objectEach } from 'highcharts'
+import {Redirect} from "react-router-dom";
+
+import Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 
 // Helper imports
@@ -11,11 +13,32 @@ import defaultOptions from "./models/chartOptions";
 
 const HighChart = ({url,endPoint, type, xLabel, selectedDate}) => {
 
-    const [options, setOptions] = useReducer(reducer, defaultOptions);
+    const [options, setOptionsDispatch] = useReducer(reducer, defaultOptions);
+    const [redirectMessage, setRedirect] = useState("");
+
+    const dataValidator = ({response, error}) => {
+        if(error){
+            setRedirect([error.response.status, error.response.statusText].join(": "));
+        }
+        else{
+            setOptionsDispatch({response, endPoint, graphType: type, xLabel, selectedDate});
+        }
+    }
+
     // Get Data
     useEffect(() => {
-        getData(url, setOptions, {endPoint, graphType: type, xLabel, selectedDate});
+        getData(url, dataValidator);
     },[url, type, selectedDate])
+
+    if(redirectMessage && redirectMessage.length > 0){
+        return(
+            <Redirect to={{
+                pathname: '/error',
+                error: redirectMessage 
+              }}
+            />
+        )
+    }
 
     return(
         <HighchartsReact
