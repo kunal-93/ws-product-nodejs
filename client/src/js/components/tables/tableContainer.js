@@ -40,7 +40,7 @@ const TableContainer = ({endPoint, defaultFrequency="", searchableColumns=[]}) =
     const dataFiller = ({response, error}) => {
     
         if(!isValidError(history, error)){
-            console.log("inside");
+            
             const cleanData = response.data.map(record=>{
                 // Format Date if present
                 if(record.date){
